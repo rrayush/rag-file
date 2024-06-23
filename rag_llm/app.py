@@ -31,5 +31,5 @@ library = FAISS.from_documents(texts, embeddings)
 
 query = []
 
-Query_answer = library.similarity_search(query)
+response = library.similarity_search(query)
 
