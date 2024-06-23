@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Langchain TEXT FILE Query</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ask a question form your text file</h1>
+  <form id="query-form">
+    <label for="query">Enter your question:</label>
+    <input type="text" id="query" name="query" placeholder="e.g., What is the company name?">
+    <button type="submit">Submit</button>
+  </form>
+  <div id="response"></div>
+  <script>
+    const form = document.getElementById('query-form');
+    const responseDiv = document.getElementById('response');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const query = document.getElementById('query').value;
+
+      // Replace with the actual URL of your Langchain endpoint
+      const url = 'http://localhost:5000/txt-chat'; // Replace with your endpoint
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ query: query })
+        });
+
+        const data = await response.json();
+        responseDiv.textContent = data.answer;
+      } catch (error) {
+        console.error(error);
+        responseDiv.textContent = 'Error: An error occurred while processing your query.';
+      }
+    });
+  </script>
+</body>
+</html>
